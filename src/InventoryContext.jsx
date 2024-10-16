@@ -64,6 +64,14 @@ function inventoriesReducer(inventories, action) {
         categories: [...inventories.categories, action.payload],
       }
     }
+    case "DELETE_CATEGORY": {
+      return {
+        ...inventories,
+        categories: inventories.categories.filter((category) => {
+          return category.id != action.payload
+        }),
+      }
+    }
     case "ADD_PRODUCT": {
       return {
         ...inventories,

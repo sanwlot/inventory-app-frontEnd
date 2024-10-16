@@ -19,12 +19,12 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
       })
   }
   function deleteCategory(selectedCategory) {
-    const { id, name } = selectedCategory
+    console.log(selectedCategory)
     axios
-      .delete(`http://localhost:5252/categories/${id}`, { name })
+      .delete(`http://localhost:5252/categories/${selectedCategory}`)
       .then((response) => {
         if (response.data) {
-          dispatch({ type: "DELETE_CATEGORY", payload: response.data })
+          dispatch({ type: "DELETE_CATEGORY", payload: response.data.id })
         }
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
         <option value="">--select category--</option>
         {categories &&
           categories.map((category) => (
-            <option key={category.id} value={category.name}>
+            <option key={category.id} value={category.id}>
               {category.name}
             </option>
           ))}
