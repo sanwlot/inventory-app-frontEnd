@@ -5,8 +5,8 @@ import axios from "axios"
 export default function AddNewProductForm() {
   const dispatch = useInventoriesDispatch()
   const { selectedCategoryId } = useInventories()
+  console.log(selectedCategoryId)
   const [newProductForm, setNewProductForm] = useState({
-    categoryId: selectedCategoryId,
     name: "",
     quantity: 0,
     price: 0,
@@ -15,6 +15,7 @@ export default function AddNewProductForm() {
     const { name, value } = e.target
     setNewProductForm({
       ...newProductForm,
+      categoryId: selectedCategoryId,
       [name]: value,
     })
   }

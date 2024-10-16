@@ -24,7 +24,6 @@ export default function ProductsTable() {
     axios
       .put(`http://localhost:5252/products/${id}`, { id, ...editedProduct })
       .then((response) => {
-        console.log(response.data)
         dispatch({ type: "EDIT_PRODUCT", payload: response.data })
       })
       .catch((error) => {
@@ -44,8 +43,6 @@ export default function ProductsTable() {
       })
   }
 
-  if (!products) return <h1>LOADING PRODUCTS...</h1>
-  console.log(products)
   return (
     <table className="table table-hover">
       <thead className="table-dark">

@@ -77,14 +77,12 @@ function inventoriesReducer(inventories, action) {
       }
     }
     case "ADD_PRODUCT": {
-      console.log(action.payload)
       return {
         ...inventories,
         products: [...inventories.products, action.payload],
       }
     }
     case "EDIT_PRODUCT": {
-      console.log(action.payload)
       return {
         ...inventories,
         products: inventories.products.map((product) =>

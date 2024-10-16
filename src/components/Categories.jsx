@@ -19,7 +19,6 @@ export default function Categories() {
       })
   }
   function deleteCategory(selectedCategoryId) {
-    console.log(selectedCategoryId)
     axios
       .delete(`http://localhost:5252/categories/${selectedCategoryId}`)
       .then((response) => {
