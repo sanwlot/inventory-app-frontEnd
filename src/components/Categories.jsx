@@ -34,6 +34,23 @@ export default function Categories() {
 
   return (
     <div className="categories-container">
+      <h4>Select a category</h4>
+      <select
+        className="form-select"
+        name="category"
+        value={selectedCategoryId}
+        onChange={(e) =>
+          dispatch({ type: "SET_SELECTED_ID", payload: e.target.value })
+        }
+      >
+        <option value="">--Categories--</option>
+        {categories &&
+          categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+      </select>
       <div>
         <input
           className="form-control"
@@ -52,28 +69,14 @@ export default function Categories() {
           Add
         </button>
       </div>
-      <select
-        className="form-select"
-        name="category"
-        value={selectedCategoryId}
-        onChange={(e) =>
-          dispatch({ type: "SET_SELECTED_ID", payload: e.target.value })
-        }
-      >
-        <option value="">--select category--</option>
-        {categories &&
-          categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-      </select>
-      <button
-        onClick={() => deleteCategory(selectedCategoryId)}
-        className="btn btn-secondary"
-      >
-        Delete Category
-      </button>
+      {selectedCategoryId && (
+        <button
+          onClick={() => deleteCategory(selectedCategoryId)}
+          className="btn btn-secondary"
+        >
+          Delete selected category
+        </button>
+      )}
       <hr className="border border-secondary border-3 opacity-75" />
     </div>
   )

@@ -42,6 +42,12 @@ export default function ProductsTable() {
         console.log(error)
       })
   }
+  if (!selectedCategoryId)
+    return (
+      <h3>
+        Please select a product category for viewing the product inventory.
+      </h3>
+    )
 
   return (
     <table className="table table-hover">
