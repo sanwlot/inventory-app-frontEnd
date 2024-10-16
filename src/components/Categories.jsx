@@ -18,6 +18,19 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
         console.log(error)
       })
   }
+  function deleteCategory(selectedCategory) {
+    const { id, name } = selectedCategory
+    axios
+      .delete(`http://localhost:5252/categories/${id}`, { name })
+      .then((response) => {
+        if (response.data) {
+          dispatch({ type: "DELETE_CATEGORY", payload: response.data })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <div className="categories-container">
@@ -53,6 +66,12 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
             </option>
           ))}
       </select>
+      <button
+        onClick={() => deleteCategory(selectedCategory)}
+        className="btn btn-secondary"
+      >
+        Delete Category
+      </button>
       <hr className="border border-secondary border-3 opacity-75" />
     </div>
   )
