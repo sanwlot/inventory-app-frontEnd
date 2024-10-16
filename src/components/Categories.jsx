@@ -2,8 +2,8 @@ import { useState } from "react"
 import { useInventories, useInventoriesDispatch } from "../InventoryContext"
 import axios from "axios"
 
-export default function Categories({ selectedCategory, setSelectedCategory }) {
-  const { categories } = useInventories()
+export default function Categories() {
+  const { categories, selectedCategoryId } = useInventories()
   const dispatch = useInventoriesDispatch()
   const [newCategory, setNewCategory] = useState("")
   function addCategory(newCategory) {
@@ -18,13 +18,14 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
         console.log(error)
       })
   }
-  function deleteCategory(selectedCategory) {
-    console.log(selectedCategory)
+  function deleteCategory(selectedCategoryId) {
+    console.log(selectedCategoryId)
     axios
-      .delete(`http://localhost:5252/categories/${selectedCategory}`)
+      .delete(`http://localhost:5252/categories/${selectedCategoryId}`)
       .then((response) => {
         if (response.data) {
           dispatch({ type: "DELETE_CATEGORY", payload: response.data.id })
+          dispatch({ type: "SET_SELECTED_ID", payload: "" })
         }
       })
       .catch((error) => {
@@ -55,8 +56,10 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
       <select
         className="form-select"
         name="category"
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+        value={selectedCategoryId}
+        onChange={(e) =>
+          dispatch({ type: "SET_SELECTED_ID", payload: e.target.value })
+        }
       >
         <option value="">--select category--</option>
         {categories &&
@@ -67,7 +70,7 @@ export default function Categories({ selectedCategory, setSelectedCategory }) {
           ))}
       </select>
       <button
-        onClick={() => deleteCategory(selectedCategory)}
+        onClick={() => deleteCategory(selectedCategoryId)}
         className="btn btn-secondary"
       >
         Delete Category

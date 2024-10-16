@@ -2,8 +2,8 @@ import { useState } from "react"
 import { useInventories, useInventoriesDispatch } from "../InventoryContext"
 import axios from "axios"
 
-export default function ProductsTable({ selectedCategory }) {
-  const { products } = useInventories()
+export default function ProductsTable() {
+  const { products, selectedCategoryId } = useInventories()
   const dispatch = useInventoriesDispatch()
 
   const [editProductForm, setEditProductForm] = useState({
@@ -16,7 +16,7 @@ export default function ProductsTable({ selectedCategory }) {
     const { name, value } = e.target
     setEditProductForm({
       ...editProductForm,
-      category: selectedCategory,
+      category_id: selectedCategoryId,
       [name]: value,
     })
   }
@@ -24,6 +24,7 @@ export default function ProductsTable({ selectedCategory }) {
     axios
       .put(`http://localhost:5252/products/${id}`, { id, ...editedProduct })
       .then((response) => {
+        console.log(response.data)
         dispatch({ type: "EDIT_PRODUCT", payload: response.data })
       })
       .catch((error) => {
@@ -43,6 +44,8 @@ export default function ProductsTable({ selectedCategory }) {
       })
   }
 
+  if (!products) return <h1>LOADING PRODUCTS...</h1>
+  console.log(products)
   return (
     <table className="table table-hover">
       <thead className="table-dark">
@@ -58,9 +61,9 @@ export default function ProductsTable({ selectedCategory }) {
       <tbody>
         {products &&
           products
-            .filter((product) => product.category === selectedCategory)
+            .filter((product) => product.category_id == selectedCategoryId)
             .map((product) => {
-              const isEditing = editingProductID === product.id
+              const isEditing = editingProductID == product.id
               return (
                 <tr key={`${product.id}-${product.name}`}>
                   {isEditing ? (

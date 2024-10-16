@@ -1,10 +1,12 @@
 import { useState } from "react"
-import { useInventoriesDispatch } from "../InventoryContext"
+import { useInventories, useInventoriesDispatch } from "../InventoryContext"
 import axios from "axios"
 
-export default function AddNewProductForm({ selectedCategory }) {
+export default function AddNewProductForm() {
   const dispatch = useInventoriesDispatch()
+  const { selectedCategoryId } = useInventories()
   const [newProductForm, setNewProductForm] = useState({
+    categoryId: selectedCategoryId,
     name: "",
     quantity: 0,
     price: 0,
@@ -13,7 +15,6 @@ export default function AddNewProductForm({ selectedCategory }) {
     const { name, value } = e.target
     setNewProductForm({
       ...newProductForm,
-      category: selectedCategory,
       [name]: value,
     })
   }
@@ -23,6 +24,7 @@ export default function AddNewProductForm({ selectedCategory }) {
       .post("http://localhost:5252/products", newProduct)
       .then((response) => {
         if (response.data) {
+          console.log(response.data)
           dispatch({ type: "ADD_PRODUCT", payload: response.data })
         }
       })

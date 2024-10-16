@@ -9,6 +9,7 @@ export default function InventoryProvider({ children }) {
   const [inventories, dispatch] = useReducer(inventoriesReducer, {
     categories: [],
     products: [],
+    selectedCategoryId: "",
   })
 
   useEffect(() => {
@@ -46,6 +47,9 @@ export function useInventoriesDispatch() {
 
 function inventoriesReducer(inventories, action) {
   switch (action.type) {
+    case "SET_SELECTED_ID": {
+      return { ...inventories, selectedCategoryId: action.payload }
+    }
     case "SET_CATEGORIES": {
       return {
         ...inventories,
@@ -73,16 +77,18 @@ function inventoriesReducer(inventories, action) {
       }
     }
     case "ADD_PRODUCT": {
+      console.log(action.payload)
       return {
         ...inventories,
         products: [...inventories.products, action.payload],
       }
     }
     case "EDIT_PRODUCT": {
+      console.log(action.payload)
       return {
         ...inventories,
         products: inventories.products.map((product) =>
-          product.id === action.payload.id ? action.payload : product
+          product.id == action.payload.id ? action.payload : product
         ),
       }
     }
